@@ -1,19 +1,18 @@
-import java.util.HashMap;
+package Clavier;
+
 import java.util.Map;
 
-public class Clavier implements ClavierInter {
+public class Clavier{
     private final Map<String, String> charmap;
 
     public Clavier(Map<String, String> charmap) {
         this.charmap = charmap;
     }
 
-    @Override
     public Map<String, String> getCharacterToKeyMapping() {
         return charmap;
     }
 
-    @Override
     public String mapNGramToKeys(String nGram) {
         StringBuilder keySequence = new StringBuilder();
         for (char c : nGram.toCharArray()) {

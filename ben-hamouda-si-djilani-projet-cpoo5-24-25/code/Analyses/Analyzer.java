@@ -1,8 +1,9 @@
+package Analyses;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class Analyzer implements AnalyzerInter {
-    @Override
+public class Analyzer{
     public Map<String, Integer> analyzeNGrams(String text, int n) {
         Map<String, Integer> frequences = new HashMap<>();
 

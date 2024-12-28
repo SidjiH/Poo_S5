@@ -1,5 +1,9 @@
+package Clavier;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import Analyses.*;
 
 
 public class EvaluationFin {

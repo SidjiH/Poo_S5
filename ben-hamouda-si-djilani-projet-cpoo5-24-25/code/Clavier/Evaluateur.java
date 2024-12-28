@@ -1,8 +1,8 @@
-import java.util.Map;
-import java.util.HashMap;
+package Clavier;
 
-public class Evaluateur implements EvaluateurInter {
-    @Override
+import java.util.Map;
+
+public class Evaluateur {
     public double evalclavier(Map<String, Integer> frequences, Map<String, Double> movementWeights, int corpusSize) {
         double score = 0.0;
 

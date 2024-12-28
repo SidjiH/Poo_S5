@@ -1,3 +1,4 @@
+package Analyses;
 
 public final class Ngramme {
     private final String seq;

@@ -1,3 +1,6 @@
+import Analyses.*;
+import Clavier.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
