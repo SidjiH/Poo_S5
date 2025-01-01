@@ -1,4 +1,4 @@
-package Clavier;
+package clavier;
 
 import java.util.ArrayList;
 

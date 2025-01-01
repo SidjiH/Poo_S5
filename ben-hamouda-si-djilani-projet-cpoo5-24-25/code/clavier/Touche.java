@@ -1,4 +1,4 @@
-package Clavier;
+package clavier;
 
 public class Touche {
     final private Position pos;

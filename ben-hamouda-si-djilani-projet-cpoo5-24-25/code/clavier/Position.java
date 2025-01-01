@@ -1,4 +1,4 @@
-package Clavier;
+package clavier;
 
 public class Position {
     public int x,y;
