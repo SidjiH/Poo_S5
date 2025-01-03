@@ -79,6 +79,7 @@ public class MovementEvaluator {
 
         if (isRedirection(t1, t2, t3)) {
             score -= 20; //pénalité redirections
+            System.out.println("redirection");
             if (!involvesIndexFinger(t1, t2, t3)) {
                 score -= 10; // pena supp pour mauvaises redirections
             }
@@ -122,7 +123,7 @@ public class MovementEvaluator {
 
      //si alternance entre les mains parce que que c'est pas ouf avec la meme main  
     private boolean isAlternatingHands(Touche t1, Touche t2) {
-        return (t1.getPos().y <= 4 && t2.getPos().y > 4) || (t1.getPos().y > 4 && t2.getPos().y <= 4);  //mg:0-4 md:5-9
+        return (t1.getPos().x <=  4 && t2.getPos().x > 4) || (t1.getPos().x > 4 && t2.getPos().x <= 4);  //mg:0-4 md:5-9
     }
 
     

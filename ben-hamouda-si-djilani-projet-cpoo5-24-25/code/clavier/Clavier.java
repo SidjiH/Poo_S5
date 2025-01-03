@@ -37,6 +37,14 @@ public class Clavier {
     private Touche vingtneuf = new Touche(new Position(2,8),3,":");
     private Touche trente = new Touche(new Position(2,9),2,"!");
 
+    //touches speciales(^,$,ù,*,,,;,:,!)
+    private Touche spec1 = new Touche(new Position(0,10),4,"^");
+    private Touche spec2 = new Touche(new Position(1,10),5,"$");
+    private Touche spec3 = new Touche(new Position(2,10),4,"ù");
+    private Touche spec4 = new Touche(new Position(0,11),5,"*");
+
+
+
     private Touche clav[][] = {
             {un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix},
             {onze, douze, treize, quatorze, quinze, seize, dixsept, dixhuit, dixneuf, vingt},
