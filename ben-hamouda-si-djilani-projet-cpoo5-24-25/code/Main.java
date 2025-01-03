@@ -4,7 +4,7 @@ import evaluation.*;
 
 public class Main {
     public static void main(String[] args) {
-        String corpus = "AZERTYAZERTY";
+        String corpus = "azertyazerty";
         Clavier clavier = new Clavier();
 
         //traitement du corpus
