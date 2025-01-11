@@ -1,4 +1,4 @@
-package main;
+package code;
 import clavier.*;
 import evaluation.*;
 

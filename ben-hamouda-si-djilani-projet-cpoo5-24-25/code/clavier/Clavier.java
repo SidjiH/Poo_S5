@@ -3,7 +3,7 @@ package clavier;
 import java.util.ArrayList;
 
 public class Clavier {
-    final private int acces_score[][] = {{3,2,2,2,3,3,2,2,2,3},{1,1,1,0,3,3,0,1,1,1},{3,3,2,3,4,3,2,3,3,2}};
+    final private int acces_score[][] = {{3,2,2,2,3,3,2,2,2,3,3,3},{1,1,1,0,3,3,0,1,1,1,1,1},{3,3,2,3,4,3,2,3,3,2,2}};
     private Touche un = new Touche(new Position(0,0),3,"A");
     private Touche deux = new Touche(new Position(0,1),2,"Z");
     private Touche trois = new Touche(new Position(0,2),2,"E");
@@ -14,6 +14,8 @@ public class Clavier {
     private Touche huit = new Touche(new Position(0,7),2,"I");
     private Touche neuf = new Touche(new Position(0,8),2,"O");
     private Touche dix = new Touche(new Position(0,9),3,"P");
+    private Touche dix1 = new Touche(new Position(0,9),3,"^");
+    private Touche dix2 = new Touche(new Position(0,10),3,"$");
 
     private Touche onze = new Touche(new Position(1,0),1,"Q");
     private Touche douze = new Touche(new Position(1,1),1,"S");
@@ -25,6 +27,8 @@ public class Clavier {
     private Touche dixhuit = new Touche(new Position(1,7),1,"K");
     private Touche dixneuf = new Touche(new Position(1,8),1,"L");
     private Touche vingt = new Touche(new Position(1,9),1,"M");
+    private Touche vingt1 = new Touche(new Position(1,10),1,"ù");
+    private Touche vingt2 = new Touche(new Position(1,11),1,"*");
 
     private Touche vingtun = new Touche(new Position(2,0),3,"W");
     private Touche vingtdeux = new Touche(new Position(2,1),3,"X");
@@ -36,11 +40,12 @@ public class Clavier {
     private Touche vingthuit = new Touche(new Position(2,7),3,";");
     private Touche vingtneuf = new Touche(new Position(2,8),3,":");
     private Touche trente = new Touche(new Position(2,9),2,"!");
+    private Touche trente1 = new Touche(new Position(2,9),2,"Shift");
 
     private Touche clav[][] = {
-            {un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix},
-            {onze, douze, treize, quatorze, quinze, seize, dixsept, dixhuit, dixneuf, vingt},
-            {vingtun, vingtdeux, vingttrois, vingtquatre, vingtquinze, vingtsix, vingtsept, vingthuit, vingtneuf, trente}
+            {un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix, dix1, dix2},
+            {onze, douze, treize, quatorze, quinze, seize, dixsept, dixhuit, dixneuf, vingt, vingt1, vingt2},
+            {vingtun, vingtdeux, vingttrois, vingtquatre, vingtquinze, vingtsix, vingtsept, vingthuit, vingtneuf, trente, trente1}
     };
 
     public Clavier(){
@@ -53,7 +58,7 @@ public class Clavier {
     }
     public ArrayList<Touche> getLigne(int x){
         ArrayList<Touche> ligne = new ArrayList<Touche>();
-        for(int i=0; i<10; i++){
+        for(int i=0; i<12; i++){
             ligne.add(clav[x][i]);
         }
         return ligne;
@@ -70,7 +75,7 @@ public class Clavier {
     public String toString() {
         String res = "";
         for(int i=0; i<3; i++){
-            for(int j=0; j<10; j++){
+            for(int j=0; j<12; j++){
                 res += clav[i][j].getLettre() + " ";
             }
             res += "\n";

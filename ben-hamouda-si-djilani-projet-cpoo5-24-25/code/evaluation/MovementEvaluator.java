@@ -11,26 +11,20 @@ public class MovementEvaluator {
         this.clavier = clavier;
     }
 
-    public void evaluerNGram(String nGram, int count) {
-        List<Touche> touches = new ArrayList<>();
-
-        for (char c : nGram.toCharArray()) {
-            Touche touche = trouverToucheParLettre(String.valueOf(c));
-            if (touche != null) {
-                touches.add(touche);
-            }
+    public void decompterMouvements(CorpusProcessor processor) {
+    processor.getNGramCounts().forEach((nGram, count) -> {
+        List<Touche> touches = convertirNGramEnTouches(nGram); //convertir en touches
+        if (touches.size() > 3) {
+            System.out.println("Séquence ignorée (trop longue) : " + nGram);
+            return;
         }
 
-        if (!touches.isEmpty()) {
-            int scoreDeMouvement = calculerScoreDeMouvement(touches);
-            scoresDeMouvement.put(
-                nGram,
-                scoresDeMouvement.getOrDefault(nGram, 0) + scoreDeMouvement * count
-            );
+        //calculer le score pour les séquences valides
+        int score = calculerScoreDeMouvement(touches);
+        scoresDeMouvement.put(nGram, scoresDeMouvement.getOrDefault(nGram, 0) + score * count);
+    });
+}
 
-            System.out.println("Bigramme: " + nGram + ", Score: " + scoreDeMouvement + ", Touches: " + touches);
-        }
-    }
 
     private Touche trouverToucheParLettre(String lettre) {
         for (int i = 0; i < 3; i++) {
@@ -104,6 +98,27 @@ public class MovementEvaluator {
         return score;
     }
 
+    public double calculerScorePondere(int totalNgrams) {
+    Map<String, Integer> poidsMouvements = Map.of(
+        "SFB", -10,
+        "LSB", -20,
+        "Ciseaux", -15,
+        "Alternance", 10,
+        "Roulement", 15
+    );
+
+    int scorePondere = scoresDeMouvement.entrySet().stream()
+        .mapToInt(entry -> {
+            String typeMouvement = entry.getKey();
+            int score = entry.getValue();
+            return score * poidsMouvements.getOrDefault(typeMouvement, 0);
+        }).sum();
+
+    return (double) scorePondere / totalNgrams;
+}
+
+
+
     private boolean estMouvementCiseaux(Touche t1, Touche t2) {
     //changeemnt rangee avec meme main
     return t1.getPos().x == t2.getPos().x && Math.abs(t1.getPos().y - t2.getPos().y) == 2;
@@ -149,4 +164,95 @@ public class MovementEvaluator {
     public Map<String, Integer> obtenirScoresDeMouvement() {
         return scoresDeMouvement;
     }
+
+
+    private List<Touche> convertirNGramEnTouches(String nGram) {
+    List<Touche> touches = new ArrayList<>();
+    for (char c : nGram.toCharArray()) {
+        switch (c) {
+            case 'û' -> {
+                touches.add(trouverToucheParLettre("^"));
+                touches.add(trouverToucheParLettre("u"));
+            }
+            case 'ù' -> {
+                touches.add(trouverToucheParLettre("`"));
+                touches.add(trouverToucheParLettre("u"));
+            }
+            case 'î' -> {
+                touches.add(trouverToucheParLettre("^"));
+                touches.add(trouverToucheParLettre("i"));
+            }
+            case 'â' -> {
+                touches.add(trouverToucheParLettre("^"));
+                touches.add(trouverToucheParLettre("a"));
+            }
+            case 'ô' -> {
+                touches.add(trouverToucheParLettre("^"));
+                touches.add(trouverToucheParLettre("o"));
+            }
+            case 'é' -> {
+                touches.add(trouverToucheParLettre("'"));
+                touches.add(trouverToucheParLettre("e"));
+            }
+            case '¨' -> {
+                touches.add(trouverToucheParLettre("Shift"));
+                touches.add(trouverToucheParLettre("^"));
+                touches.add(trouverToucheParLettre("e"));
+            }
+            case 'œ' -> {
+                touches.add(trouverToucheParLettre("o"));
+                touches.add(trouverToucheParLettre("e"));
+}
+            case 'è' -> {
+                touches.add(trouverToucheParLettre("`"));
+                touches.add(trouverToucheParLettre("e"));
+            }
+            case 'ê' -> {
+                touches.add(trouverToucheParLettre("^"));
+                touches.add(trouverToucheParLettre("e"));
+            }
+            case 'à' -> {
+                touches.add(trouverToucheParLettre("`"));
+                touches.add(trouverToucheParLettre("a"));
+            }
+            case 'ç' -> {
+                touches.add(trouverToucheParLettre(","));
+                touches.add(trouverToucheParLettre("c"));
+            }
+            case '.' -> {
+                touches.add(trouverToucheParLettre("Shift"));
+                touches.add(trouverToucheParLettre(";"));
+            }
+            case '%' -> {
+                touches.add(trouverToucheParLettre("Shift"));
+                touches.add(trouverToucheParLettre("ù"));
+            }
+            case 'µ' -> {
+                touches.add(trouverToucheParLettre("Shift"));
+                touches.add(trouverToucheParLettre("*"));
+            }
+            case '/' -> {
+                touches.add(trouverToucheParLettre("Shift"));
+                touches.add(trouverToucheParLettre(":"));
+            }
+            case '?' -> {
+                touches.add(trouverToucheParLettre("Shift"));
+                touches.add(trouverToucheParLettre(","));
+            }
+            
+            
+            default -> {
+                Touche touche = trouverToucheParLettre(String.valueOf(c));
+                if (touche != null) {
+                    touches.add(touche);
+                } else {
+                    System.out.println("Caractère non reconnu : " + c);
+                }
+            }
+        }
+    }
+    return touches;
+}
+
+
 }
