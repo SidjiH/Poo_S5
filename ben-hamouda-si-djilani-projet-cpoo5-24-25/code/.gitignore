@@ -1,0 +1,6 @@
+# Ignorer tous les fichiers .class
+*.class
+
+# Ignorer un dossier de sortie spécifique, comme bin/
+bin/
+
