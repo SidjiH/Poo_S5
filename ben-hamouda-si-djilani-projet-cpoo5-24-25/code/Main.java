@@ -1,5 +1,4 @@
-package main;
-import clavier.*;
+import clavier.Clavier;
 import evaluation.*;
 import genetic.*;
 
