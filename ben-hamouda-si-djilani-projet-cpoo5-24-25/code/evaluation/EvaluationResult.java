@@ -1,5 +1,4 @@
 package evaluation;
-import clavier.*;
 import java.util.*;
 
 public class EvaluationResult {

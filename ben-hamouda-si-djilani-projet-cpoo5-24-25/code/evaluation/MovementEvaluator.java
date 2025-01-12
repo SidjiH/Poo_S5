@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MovementEvaluator {
 
-    private final Clavier clavier;
+    private  Clavier clavier;
     private final Map<String, Integer> scoresDeMouvement = new HashMap<>();
 
     public MovementEvaluator(Clavier clavier) {
@@ -253,6 +253,10 @@ public class MovementEvaluator {
     }
     return touches;
 }
+
+    public void setClavier(Clavier clavier) {
+        this.clavier = clavier;
+    }
 
 
 }

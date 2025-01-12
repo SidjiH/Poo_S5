@@ -1,6 +1,8 @@
-package code;
+package main;
 import clavier.*;
 import evaluation.*;
+import genetic.*;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -20,7 +22,11 @@ public class Main {
         //Objet qui stocke les rés
         EvaluationResult result = new EvaluationResult(evaluator.obtenirScoresDeMouvement(), weightedScore);
 
-        //aficher le résultat
+
+        //afficher le résultat
         System.out.println(result);
+
+        GeneticOptimizer optimizer = new GeneticOptimizer(clavier, evaluator, 10);
+        optimizer.optimize(100);
     }
 }
