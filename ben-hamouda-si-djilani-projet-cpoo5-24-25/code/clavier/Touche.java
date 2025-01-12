@@ -4,6 +4,9 @@ public class Touche {
     final private Position pos;
     final private int score;
     private String lettre;
+    private String lettre_altgr = "";
+    private String lettre_shift_altgr = "";
+    private String lettre_shift = "";
 
     public Touche(Position pos, int score, String lettre){
         this.pos = pos;

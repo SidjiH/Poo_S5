@@ -11,17 +11,19 @@ public class GeneticOptimizer {
     private final int poolSize;
     private final Random random = new Random();
     private final List<Clavier> pool = new ArrayList<>();
+    private final CorpusProcessor processor; // Ajout du processeur
 
-    public GeneticOptimizer(Clavier clavier, MovementEvaluator evaluator, int poolSize) {
-        this.clavier = clavier;
-        this.evaluator = evaluator;
-        this.poolSize = poolSize;
-
-        
-        for (int i = 0; i < poolSize; i++) {
-            pool.add(randomizeDisposition(clavier));       //init le pool avec des dispositions de départ
-        }
+    public GeneticOptimizer(Clavier clavier, MovementEvaluator evaluator, int poolSize, CorpusProcessor processor) {
+    this.clavier = clavier;
+    this.evaluator = evaluator;
+    this.poolSize = poolSize;
+    this.processor = processor; // Ajout du processeur
+    
+    for (int i = 0; i < poolSize; i++) {
+        pool.add(randomizeDisposition(clavier));
     }
+}
+
 
     public void optimize(int iterations) {
     for (int i = 0; i < iterations; i++) {
@@ -42,12 +44,13 @@ public class GeneticOptimizer {
         System.out.println("Iteration " + (i + 1) + ": Meilleure disposition actuelle avec score " +
             evaluateDisposition(pool.get(0)) + " :");
         System.out.println(pool.get(0).toString());
+
+        System.out.println("Optimisation terminée. Meilleure disposition finale :");
+        System.out.println(pool.get(0).toString());
     }
 
-    //disposition finale
-    System.out.println("Optimisation terminée. Meilleure disposition finale :");
-    System.out.println(pool.get(0).toString());
-}
+    
+    }
 
 
     private Clavier selectRandomParent() {
@@ -55,35 +58,36 @@ public class GeneticOptimizer {
     }
 
     private Clavier randomizeDisposition(Clavier clavier) {
-        Clavier randomized = new Clavier();
-        List<Touche> allTouches = new ArrayList<>();
+    Clavier randomized = new Clavier();
+    List<Touche> allTouches = new ArrayList<>();
 
-        
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 10; j++) {
-                Touche t = clavier.getTouche(i, j);       //on extrait touches
-                if (t != null) {
-                    allTouches.add(t);
-                }
+    // Extraire toutes les touches valides
+    for (int i = 0; i < clavier.getClavier().length; i++) {
+        for (int j = 0; j < clavier.getClavier()[i].length; j++) {
+            Touche t = clavier.getTouche(i, j);
+            if (t != null) {
+                allTouches.add(t);
             }
         }
-
-        
-        Collections.shuffle(allTouches);  //on mélange les touches
-
-        //réaffecte les touches aléatoirement
-        int index = 0;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (index < allTouches.size()) {
-                    randomized.getTouche(i, j).setLettre(allTouches.get(index).getLettre());
-                    index++;
-                }
-            }
-        }
-
-        return randomized;
     }
+
+    // Mélanger les touches
+    Collections.shuffle(allTouches);
+
+    // Réaffecter les touches aléatoirement
+    int index = 0;
+    for (int i = 0; i < clavier.getClavier().length; i++) {
+        for (int j = 0; j < clavier.getClavier()[i].length; j++) {
+            if (index < allTouches.size() && clavier.getTouche(i, j) != null) {
+                randomized.getTouche(i, j).setLettre(allTouches.get(index).getLettre());
+                index++;
+            }
+        }
+    }
+
+    return randomized;
+}
+
 
     private void mutation(Clavier clavier) {
         //echange deux touches au pif
@@ -105,25 +109,34 @@ public class GeneticOptimizer {
     private Clavier crossover(Clavier parent1, Clavier parent2) {
         Clavier child = new Clavier();
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (random.nextBoolean()) {
-                    child.getTouche(i, j).setLettre(parent1.getTouche(i, j).getLettre());
+        for (int i = 0; i < parent1.getClavier().length; i++) {
+            for (int j = 0; j < parent1.getClavier()[i].length; j++) {
+                Touche toucheParent1 = parent1.getTouche(i, j);
+                Touche toucheParent2 = parent2.getTouche(i, j);
+
+                if (toucheParent1 != null && toucheParent2 != null) {
+                    if (random.nextBoolean()) {
+                        child.getTouche(i, j).setLettre(toucheParent1.getLettre());
+                    } else {
+                        child.getTouche(i, j).setLettre(toucheParent2.getLettre());
+                    }
                 } else {
-                    child.getTouche(i, j).setLettre(parent2.getTouche(i, j).getLettre());
+                    System.out.println("Position invalide ou touche nulle : (" + i + ", " + j + ")");
                 }
             }
-        }
+            }
 
-        return child;
+            return child;
     }
 
+
+
     private double evaluateDisposition(Clavier clavier) {
-    evaluator.setClavier(clavier); //assoc le clavier à l'évaluateur
-    CorpusProcessor processor = new CorpusProcessor();
-    evaluator.decompterMouvements(processor); 
+    evaluator.setClavier(clavier); // Associer le clavier
+    evaluator.decompterMouvements(processor); // Utiliser le processeur existant
     return evaluator.calculerScorePondere(processor.getTotalNgrams());
 }
+
 
 
 

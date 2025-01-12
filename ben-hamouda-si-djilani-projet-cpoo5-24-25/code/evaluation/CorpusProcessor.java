@@ -1,6 +1,5 @@
 package evaluation;
 
-import clavier.*;
 import java.util.*;
 
 
@@ -13,9 +12,11 @@ public class CorpusProcessor {
 
 
     public void processCorpus(String corpus, int n) {
+        System.out.println("Traitement du corpus avec N=" + n);
         for (int i = 0; i <= corpus.length() - n; i++) {
             String nGram = corpus.substring(i, i + n);
             nGramCounts.put(nGram, nGramCounts.getOrDefault(nGram, 0) + 1);
+            
             totalNgrams++;
         }
     }
